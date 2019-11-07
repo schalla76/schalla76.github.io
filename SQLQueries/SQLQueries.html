@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>SQL Queries</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        
+    </head>
+    <body class="vscode-light">
+        <h1 id="sql-queries">SQL Queries</h1>
+<ul>
+<li><a href="#sql-queries">SQL Queries</a>
+<ul>
+<li><a href="#utility-queries">Utility Queries</a>
+<ul>
+<li><a href="#setup-new-daabase-and-user">Setup new daabase and user</a></li>
+<li><a href="#search-for-tables-and-columns">Search for tables and columns</a></li>
+<li><a href="#reindex-tables">Reindex tables</a></li>
+<li><a href="#find-row-count-in-all-tables">Find row count in all tables</a></li>
+</ul>
+</li>
+<li><a href="#spf-queries">SPF Queries</a>
+<ul>
+<li><a href="#check-the-documents-count">Check the documents count</a></li>
+<li><a href="#clean-up-terminated-records-in-spf">Clean up terminated records in SPF</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="utility-queries">Utility Queries</h2>
+<h3 id="setup-new-daabase-and-user">Setup new daabase and user</h3>
+<p>For <strong>Oracle</strong></p>
+<pre><code class="language-sql"><div><span class="hljs-comment">--Create tablespace</span>
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">tablespace</span> username_data <span class="hljs-keyword">datafile</span> <span class="hljs-string">'&lt;oradatapath&gt;\dbname\username_data.dbf'</span> <span class="hljs-keyword">size</span> <span class="hljs-number">50</span>M;
+<span class="hljs-keyword">alter</span> <span class="hljs-keyword">database</span> <span class="hljs-keyword">datafile</span> <span class="hljs-string">'&lt;oradatapath&gt;\dbname\username_data.dbf'</span> <span class="hljs-keyword">autoextend</span> <span class="hljs-keyword">on</span> <span class="hljs-keyword">next</span> <span class="hljs-number">5</span>M;
+
+<span class="hljs-comment">--Create tempaory tablespace</span>
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">temporary</span> <span class="hljs-keyword">tablespace</span> username_dataTemp tempfile <span class="hljs-string">'&lt;oradatapath&gt;\dbname\username_dataTemp.dbf'</span> <span class="hljs-keyword">size</span> <span class="hljs-number">50</span>M;
+<span class="hljs-keyword">alter</span> <span class="hljs-keyword">database</span> tempfile <span class="hljs-string">'&lt;oradatapath&gt;\dbname\username_dataTemp.dbf'</span> <span class="hljs-keyword">autoextend</span> <span class="hljs-keyword">on</span> <span class="hljs-keyword">next</span> <span class="hljs-number">5</span>M;
+
+<span class="hljs-comment">--Drop existing user</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">USER</span> username_data <span class="hljs-keyword">CASCADE</span>;
+
+<span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">connect</span> <span class="hljs-keyword">TO</span> username_data <span class="hljs-keyword">identified</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">oracle</span>;
+<span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">resource</span> <span class="hljs-keyword">TO</span> username_data;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">USER</span> username_data <span class="hljs-keyword">quota</span> <span class="hljs-keyword">unlimited</span> <span class="hljs-keyword">ON</span> username_data;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">USER</span> username_data <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">tablespace</span> username_data;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">USER</span> username_data <span class="hljs-keyword">temporary</span> <span class="hljs-keyword">tablespace</span> username_dataTemp;
+<span class="hljs-comment">--GRANT dba TO username_data;</span>
+<span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">CONNECT</span>, <span class="hljs-keyword">RESOURCE</span> <span class="hljs-keyword">TO</span> username_data;
+<span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">unlimited</span> <span class="hljs-keyword">tablespace</span> <span class="hljs-keyword">TO</span> username_data <span class="hljs-keyword">WITH</span> <span class="hljs-keyword">admin</span> <span class="hljs-keyword">OPTION</span>;
+
+<span class="hljs-keyword">COMMIT</span>;
+</div></code></pre>
+<p>For <strong>MsSql</strong></p>
+<pre><code class="language-sql"><div><span class="hljs-comment">---Create database</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">DATABASE</span> usernamedata
+
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">DATABASE</span> usernamedata <span class="hljs-keyword">MODIFY</span> <span class="hljs-keyword">FILE</span>
+   (<span class="hljs-keyword">NAME</span> = <span class="hljs-string">'usernamedata'</span>, <span class="hljs-keyword">SIZE</span> = <span class="hljs-number">400</span>MB, FILEGROWTH = <span class="hljs-number">50</span>MB)
+
+<span class="hljs-keyword">GO</span>
+
+<span class="hljs-comment">---Create User</span>
+<span class="hljs-keyword">USE</span> [<span class="hljs-keyword">master</span>]
+<span class="hljs-keyword">GO</span>
+
+<span class="hljs-keyword">CREATE</span> LOGIN username_data <span class="hljs-keyword">WITH</span> <span class="hljs-keyword">PASSWORD</span>=N<span class="hljs-string">'oracle'</span>, DEFAULT_DATABASE=usernamedata, CHECK_POLICY=<span class="hljs-keyword">OFF</span>
+<span class="hljs-keyword">GO</span>
+</div></code></pre>
+<h3 id="search-for-tables-and-columns">Search for tables and columns</h3>
+<p>For <strong>Oracle</strong></p>
+<pre><code class="language-sql"><div><span class="hljs-comment">--SEARCH TABLE NAMES</span>
+
+<span class="hljs-keyword">SELECT</span> t.owner, t.table_name
+  <span class="hljs-keyword">FROM</span> ALL_TABLES t
+ <span class="hljs-keyword">WHERE</span> t.owner <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'SRSADMIN%'</span>
+   <span class="hljs-keyword">AND</span> <span class="hljs-keyword">UPPER</span>(t.table_name) <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'EF%'</span>
+ <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> t.owner, t.table_name
+
+<span class="hljs-comment">--SEARCH COLUMN NAMES</span>
+<span class="hljs-keyword">SELECT</span> t.owner, t.table_name, c.column_name
+  <span class="hljs-keyword">FROM</span> ALL_TABLES t
+  <span class="hljs-keyword">join</span> ALL_TAB_COLUMNS c <span class="hljs-keyword">ON</span> t.table_name = c.table_name
+   <span class="hljs-keyword">AND</span> <span class="hljs-keyword">UPPER</span>(t.owner) <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'SRSADMIN%'</span>
+   <span class="hljs-keyword">AND</span> <span class="hljs-keyword">UPPER</span>(c.column_name) <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%METHOD%'</span>
+ <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> t.owner, t.table_name, c.column_name
+</div></code></pre>
+<p>For <strong>MsSql</strong></p>
+<pre><code class="language-sql"><div><span class="hljs-comment">--SEARCH TABLES</span>
+<span class="hljs-keyword">SELECT</span> USER_NAME(SO.UID)
+      ,SO.NAME TABLE_NAME
+	  ,SO.XTYPE <span class="hljs-keyword">TYPE</span>
+  <span class="hljs-keyword">FROM</span> SYSOBJECTS SO
+ <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">UPPER</span>(SO.NAME) <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%cmpnt_func_type_name%'</span>
+   <span class="hljs-keyword">AND</span> SO.XTYPE <span class="hljs-keyword">IN</span> (<span class="hljs-string">'U'</span>,<span class="hljs-string">'V'</span>)
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span>
+       USER_NAME(SO.UID)
+      ,SO.NAME
+	  ,SO.XTYPE
+
+<span class="hljs-comment">--SEARCH COLUMNS</span>
+<span class="hljs-keyword">SELECT</span> USER_NAME(SO.UID)
+      ,SO.NAME TABLE_NAME
+	  ,SC.NAME COLUMN_NAME
+	  ,SO.XTYPE <span class="hljs-keyword">TYPE</span>
+  <span class="hljs-keyword">FROM</span> SYSOBJECTS SO
+  <span class="hljs-keyword">JOIN</span> SYSCOLUMNS SC
+    <span class="hljs-keyword">ON</span> SO.ID = SC.ID
+   <span class="hljs-keyword">AND</span> <span class="hljs-keyword">UPPER</span>(SC.NAME) <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%PD_UDF_C04%'</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> USER_NAME(SO.UID)
+      ,SO.NAME
+	  ,SC.NAME
+	  ,SO.XTYPE
+</div></code></pre>
+<h3 id="reindex-tables">Reindex tables</h3>
+<p>For <strong>MsSql</strong></p>
+<pre><code class="language-sql"><div>EXEC sp_MSforeachtable @command1="print '?' DBCC DBREINDEX ('?', ' ', 80)"
+GO
+EXEC sp_updatestats
+GO
+</div></code></pre>
+<h3 id="find-row-count-in-all-tables">Find row count in all tables</h3>
+<p>For <strong>MsSql</strong></p>
+<pre><code class="language-sql"><div><span class="hljs-keyword">SELECT</span> SCHEMA_NAME(schema_id)   <span class="hljs-keyword">AS</span> [SchemaName],
+       [<span class="hljs-keyword">Tables</span>].name            <span class="hljs-keyword">AS</span> [TableName],
+       <span class="hljs-keyword">SUM</span>([<span class="hljs-keyword">Partitions</span>].[<span class="hljs-keyword">rows</span>]) <span class="hljs-keyword">AS</span> [TotalRowCount]
+  <span class="hljs-keyword">FROM</span> sys.tables          <span class="hljs-keyword">AS</span> [<span class="hljs-keyword">Tables</span>] <span class="hljs-keyword">JOIN</span> sys.partitions <span class="hljs-keyword">AS</span> [<span class="hljs-keyword">Partitions</span>]
+    <span class="hljs-keyword">ON</span> [<span class="hljs-keyword">Tables</span>].[object_id] = [<span class="hljs-keyword">Partitions</span>].[object_id]
+       <span class="hljs-keyword">AND</span> [<span class="hljs-keyword">Partitions</span>].index_id <span class="hljs-keyword">IN</span> ( <span class="hljs-number">0</span>, <span class="hljs-number">1</span> )
+ <span class="hljs-comment">--WHERE [Tables].name = N'name of the table'</span>
+ <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> SCHEMA_NAME(schema_id),
+       [<span class="hljs-keyword">Tables</span>].name
+ <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> TotalRowCount;
+</div></code></pre>
+<h2 id="spf-queries">SPF Queries</h2>
+<h3 id="check-the-documents-count">Check the documents count</h3>
+<pre><code class="language-sql"><div><span class="hljs-keyword">SELECT</span> config   <span class="hljs-keyword">AS</span> config,
+       <span class="hljs-keyword">count</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">AS</span> docs
+  <span class="hljs-keyword">FROM</span> DOCOBJ
+ <span class="hljs-keyword">WHERE</span> OBJDEFUID = <span class="hljs-string">'FDWDocumentMaster'</span>
+ <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> config;
+</div></code></pre>
+<h3 id="clean-up-terminated-records-in-spf">Clean up terminated records in SPF</h3>
+<p>For <strong>MsSql</strong></p>
+<pre><code class="language-sql"><div> IF EXISTS(<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">name</span> <span class="hljs-keyword">FROM</span> sysobjects <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">id</span> = OBJECT_ID(<span class="hljs-string">'dbo.sp_delete_all_terminated_Objects'</span>))
+<span class="hljs-keyword">BEGIN</span>
+	<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">PROCEDURE</span> dbo.sp_delete_all_terminated_Objects
+<span class="hljs-keyword">END</span>
+
+<span class="hljs-keyword">GO</span>
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">PROCEDURE</span> dbo.sp_delete_all_terminated_Objects
+<span class="hljs-keyword">AS</span>
+<span class="hljs-keyword">BEGIN</span>
+
+	<span class="hljs-keyword">DECLARE</span> @<span class="hljs-keyword">id</span> <span class="hljs-built_in">INT</span>
+	<span class="hljs-keyword">DECLARE</span> @<span class="hljs-keyword">count</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">256</span>)
+	<span class="hljs-keyword">DECLARE</span> @rowcount <span class="hljs-keyword">TABLE</span> (<span class="hljs-keyword">Value</span> <span class="hljs-built_in">int</span>);
+	<span class="hljs-keyword">DECLARE</span> @SELECTSQL <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">2000</span>)
+	<span class="hljs-keyword">DECLARE</span> @SELECTSQL2 <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">2000</span>)
+	<span class="hljs-keyword">DECLARE</span> @IFEXISTSSQL <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">3000</span>)
+	<span class="hljs-keyword">DECLARE</span> @tablename <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">256</span>)
+	<span class="hljs-keyword">DECLARE</span> @schemaname <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">256</span>)
+
+
+	<span class="hljs-comment">/*
+	dbo.sp_delete_all_terminated_Objects
+    */</span>
+
+	<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-comment">#vtlTempTables(</span>
+				 dropSql <span class="hljs-keyword">NCHAR</span>(<span class="hljs-number">2000</span>)
+				)
+
+	<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-comment">#tableswithterminationDate(</span>
+				 tablename <span class="hljs-keyword">NCHAR</span>(<span class="hljs-number">256</span>)
+				,numberofrows <span class="hljs-keyword">NCHAR</span>(<span class="hljs-number">256</span>)
+				,schemaname <span class="hljs-keyword">NCHAR</span>(<span class="hljs-number">256</span>)
+				,<span class="hljs-keyword">id</span> <span class="hljs-built_in">INT</span> <span class="hljs-keyword">identity</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)
+                ,<span class="hljs-keyword">found</span> <span class="hljs-built_in">BIT</span>
+                ,selectsql <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">2000</span>)
+				)
+
+	PRINT <span class="hljs-string">'Before running this proc, close all application which use this database'</span>
+
+
+	<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-comment">#vtlTempTables(</span>
+           dropSql
+		  )
+    <span class="hljs-keyword">SELECT</span> <span class="hljs-string">'DROP TABLE '</span> + <span class="hljs-keyword">RTRIM</span>(user_name(so.uid)) + <span class="hljs-string">'.'</span> +  so.name + <span class="hljs-string">';'</span>
+	  <span class="hljs-keyword">FROM</span> sysobjects so
+	 <span class="hljs-keyword">WHERE</span> so.xtype <span class="hljs-keyword">in</span> (<span class="hljs-string">'U'</span>, <span class="hljs-string">'V'</span>)
+	   <span class="hljs-keyword">AND</span> so.name <span class="hljs-keyword">like</span> <span class="hljs-string">'VTL%'</span>
+	   <span class="hljs-keyword">AND</span> SO.NAME <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span> (<span class="hljs-string">'VTLOBJ'</span>, <span class="hljs-string">'VTLOBJIF'</span>, <span class="hljs-string">'VTLOBJPR'</span>, <span class="hljs-string">'VTLOBJPRDETAIL'</span>, <span class="hljs-string">'VTLREL'</span>)
+  <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> so.xtype
+	     , so.name
+         , user_name(so.uid)
+
+
+  <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-comment">#vtlTempTables;</span>
+
+	<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-comment">#tableswithterminationDate(</span>
+           tablename
+          ,schemaname)
+    <span class="hljs-keyword">SELECT</span> so.name
+		 , user_name(so.uid) <span class="hljs-keyword">as</span> tableschema
+	  <span class="hljs-keyword">FROM</span> sysobjects so <span class="hljs-keyword">join</span> syscolumns sc <span class="hljs-keyword">on</span> so.id = sc.id
+	   <span class="hljs-keyword">AND</span> sc.name = <span class="hljs-string">'TERMINATIONDATE'</span>
+	   <span class="hljs-keyword">AND</span> so.xtype <span class="hljs-keyword">in</span> (<span class="hljs-string">'U'</span>)
+	   <span class="hljs-keyword">AND</span> type_name(sc.xtype) <span class="hljs-keyword">in</span> (<span class="hljs-string">'nchar'</span>, <span class="hljs-string">'char'</span>, <span class="hljs-string">'nvarchar'</span>, <span class="hljs-string">'varchar'</span>)
+  <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span>  sc.name
+         , so.xtype
+	     , so.name
+         , user_name(so.uid)
+  <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> tableschema <span class="hljs-keyword">desc</span>	;
+
+
+
+  <span class="hljs-keyword">SELECT</span> @<span class="hljs-keyword">id</span> =<span class="hljs-keyword">MAX</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">FROM</span> <span class="hljs-comment">#tableswithterminationDate</span>
+
+	<span class="hljs-keyword">WHILE</span> (@<span class="hljs-keyword">id</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>)
+	<span class="hljs-keyword">BEGIN</span>
+
+		<span class="hljs-keyword">SELECT</span> @tablename = tablename
+             , @schemaname = schemaname
+          <span class="hljs-keyword">FROM</span> <span class="hljs-comment">#tableswithterminationDate</span>
+         <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">id</span> = @<span class="hljs-keyword">id</span>
+
+		<span class="hljs-keyword">SELECT</span> @SELECTSQL = <span class="hljs-string">'SELECT count(1) FROM '</span> +  <span class="hljs-keyword">RTRIM</span>(@schemaname) + <span class="hljs-string">'.'</span> + <span class="hljs-keyword">RTRIM</span>(@tablename) + <span class="hljs-string">' WHERE TERMINATIONDATE &lt;&gt; ''9999/12/31-23:59:59:999'''</span>;
+
+		<span class="hljs-keyword">SELECT</span> @SELECTSQL2 = <span class="hljs-string">'DELETE FROM '</span> +  <span class="hljs-keyword">RTRIM</span>(@schemaname) + <span class="hljs-string">'.'</span> + <span class="hljs-keyword">RTRIM</span>(@tablename) + <span class="hljs-string">' WHERE TERMINATIONDATE &lt;&gt; ''''9999/12/31-23:59:59:999'''';'</span>;
+
+		print(@SELECTSQL)
+
+		<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> @rowcount EXEC(@SELECTSQL)
+
+		<span class="hljs-keyword">SELECT</span> @<span class="hljs-keyword">count</span> = <span class="hljs-keyword">Value</span> <span class="hljs-keyword">FROM</span> @rowcount;
+
+		print(@count)
+
+		<span class="hljs-keyword">SELECT</span> @IFEXISTSSQL = <span class="hljs-string">'IF ( '</span> + @<span class="hljs-keyword">count</span> + <span class="hljs-string">' &gt; 0 )'</span> +
+							<span class="hljs-string">' BEGIN'</span> +
+								<span class="hljs-string">' UPDATE #tableswithterminationDate'</span> +
+								   <span class="hljs-string">' SET found = 1'</span> +
+								   <span class="hljs-string">'   , selectsql = '''</span> + @SELECTSQL2 + <span class="hljs-string">''''</span> +
+								   <span class="hljs-string">' , numberofrows = '</span> + @<span class="hljs-keyword">count</span> +
+								 <span class="hljs-string">' WHERE id = '</span> + <span class="hljs-keyword">CONVERT</span>(<span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">16</span>), @<span class="hljs-keyword">id</span>)  +
+							<span class="hljs-string">' END'</span>
+
+
+		EXEC(@IFEXISTSSQL)
+
+		<span class="hljs-keyword">SELECT</span> @<span class="hljs-keyword">id</span>=<span class="hljs-keyword">MAX</span>(<span class="hljs-keyword">id</span>) <span class="hljs-keyword">FROM</span> <span class="hljs-comment">#tableswithterminationDate WHERE id &lt; @id</span>
+
+    <span class="hljs-keyword">END</span>
+
+	<span class="hljs-keyword">SELECT</span> *
+	  <span class="hljs-keyword">FROM</span> <span class="hljs-comment">#tableswithterminationDate;</span>
+
+    <span class="hljs-keyword">SELECT</span> *
+      <span class="hljs-keyword">FROM</span> <span class="hljs-comment">#tableswithterminationDate</span>
+     <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">found</span> = <span class="hljs-number">1</span>
+
+	<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">table</span> <span class="hljs-comment">#tableswithterminationDate</span>
+	<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">table</span> <span class="hljs-comment">#vtlTempTables</span>
+<span class="hljs-keyword">END</span>
+</div></code></pre>
+
+    </body>
+    </html>
