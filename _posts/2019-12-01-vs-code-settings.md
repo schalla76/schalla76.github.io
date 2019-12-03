@@ -28,6 +28,8 @@ code --install-extension uizhou.githd                                   # git Di
 code --install-extension wix.vscode-import-cost                         # Import Cost
 code --install-extension yzhang.markdown-all-in-one                     # markdown util
 code --install-extension davidanson.vscode-markdownlint                 # markdonw lint
+code --install-extension yzane.markdown-pdf                             # markdonw pdf
+code --install-extension streetsidesoftware.code-spell-checker          # spell checker
 ```
 
 ## Settings
