@@ -15,6 +15,8 @@ categories: books
 
 [Youtube link Author: Derek Banas, CSS Tutorials](https://www.youtube.com/watch?v=mqLI2oN6rXQ)
 
+[Udemy Course](https://www.udemy.com/course/css-the-complete-guide-incl-flexbox-grid-sass/)
+
 ## The text properties
 
 - Color
