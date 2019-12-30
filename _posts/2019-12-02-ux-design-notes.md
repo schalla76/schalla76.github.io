@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "UX/UI Design Notes"
-date: 2020-01-01
+date: 2019-12-02
 categories: books
 ---
 

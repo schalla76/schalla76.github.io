@@ -359,4 +359,108 @@ Example
 
 ## Sequence
 
+- cons: Adds item to the begining of the sequence
+- conj: Similar to the cons but add the item based on the context of the arguments
+- concat: Joins to sequences
+- distinct: Removes duplicates
+- sort: Sorts the items in the sequence
+- first: Gets the first item in the sequence
+- rest: Excludes the first and gets the rest of the items
+- last: Gets the last tiem in the sequence
+
 Example
+
+```clojure
+(defn seqfn
+  "Sequence function"
+  []
+  (def colors (seq ["green" "red" "blue"]))
+  (println (cons "yellow" colors))
+  (println (cons colors "yellow"))
+  (println (conj colors "purple"))
+  (println (concat colors (seq ["white" "Black" "Grey"])))
+  (println (distinct (seq [1 2 8 2 3 2 4 5])))
+  (println (sort (seq [1 2 8 2 3 2 4 5])))
+  (println (first colors))
+  (println (rest colors))
+  (println (last colors))
+```
+
+Output:
+
+```
+(yellow green red blue)
+((green red blue) y e l l o w)
+(purple green red blue)
+(green red blue white Black Grey)
+(1 2 8 3 4 5)
+(1 2 2 2 3 4 5 8)
+green
+(red blue)
+blue
+(green red blue)
+nil
+```
+
+## Struct
+
+- struct-map allows you to specify the property name
+- assoc allows to change the value for the struct and define a new struct
+- using assoc we can also add new keys
+
+Example:
+
+```clojure
+(defn structfn
+  "Structure function"
+  []
+  (defstruct pet :PetType :PetName)
+  (def mypet (struct pet "Dog" "Tommy"))
+  (println mypet)
+  (def mysecondpet (struct-map pet :PetName "Tuffy" :PetType "Dog"))
+  (println mysecondpet)
+  (def myNewPet (assoc mypet :PetName "Raju"))
+  (println myNewPet)
+  (def myNewOtherPet (assoc mypet :PetAge "10"))
+  (println myNewOtherPet))
+```
+
+## Destruct
+
+Example:
+
+```clojure
+(defn destruct
+  "Destruct"
+  []
+  (def myVect [1 2 4 "xyz" "Test"])
+  (let [[a b c d] myVect] (println a b c d))
+  (let [[a b c & rest] myVect] (println a b c rest))
+  (def myMap {'state "Telangana" 'city "Hyderabad"})
+  (let [{s 'state c 'city} myMap] (println s c))
+  (let [{s 'state c 'city x 'capital} myMap] (println s c x)))
+```
+
+Output:
+
+```
+1 2 4 xyz
+1 2 4 (xyz Test)
+Telangana Hyderabad
+Telangana Hyderabad nil
+nil
+```
+
+## Exception Handling
+
+Example:
+
+```clojure
+(defn exceptionHandler
+  "Exception handler"
+  [x]
+  (try
+    (inc x)
+    (catch Exception e (println "expception:" (.getMessage e)))
+    (finally (println x))))
+```
