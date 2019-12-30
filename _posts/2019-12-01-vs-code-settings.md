@@ -30,6 +30,7 @@ code --install-extension yzhang.markdown-all-in-one                     # markdo
 code --install-extension davidanson.vscode-markdownlint                 # markdonw lint
 code --install-extension yzane.markdown-pdf                             # markdonw pdf
 code --install-extension streetsidesoftware.code-spell-checker          # spell checker
+code --install-extension firefox-devtools.vscode-firefox-debug          # Firefox debugger
 ```
 
 ## Settings

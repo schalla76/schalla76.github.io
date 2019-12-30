@@ -40,6 +40,15 @@ Check/Uncheck below debug optons in Visual Studio.
 - Change to the physical path of the virtual directory
 - Deletion of the subdirectory
 
+### Viewing byte array in debug window
+
+- Use below expression to convert the bytes into string
+
+```c#
+//buffer is byte array
+System.Text.Encoding.UTF8.GetString(buffer, 0, buffer.Length)
+```
+
 ## Reverse Engineer tools
 
 ### .Net Reflector
