@@ -55,3 +55,120 @@ Used for editing binaries and debugging
 
 Core framework used for debugging  
 [Source link](https://github.com/icsharpcode/ILSpy)
+
+## SDx logs
+
+### Desktop Client tracing
+
+- Update <Target Folder>\SmartPlant\Foundation\SPFDesktopClient\CurrentVersion\tracesettings.config with below for getting complete trace
+
+```xml
+<categorySources>
+    <!-- Possible All, Critical, Error, Warning, Information, Verbose, Off -->
+    <add switchValue="All" name="General">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="Performance">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="WebRequest">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="Schema">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="DatabaseAccess">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="SQL">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="Core">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="Email">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="Login">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="TEF">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="RemoteServices">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="DocMgmt">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="Loader">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="Scheduler">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="Custom">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="APITrace">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="Metering">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="IHUB">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+    <add switchValue="All" name="Cache">
+      <listeners>
+        <add name="Rolling TraceListener"/>
+      </listeners>
+    </add>
+  </categorySources>
+```
+
+- Update <Target Folder>\SmartPlant\Foundation\SPFDesktopClient\settings.xml file as below
+
+```xml
+<configuration>
+  <debug level="9" dir="C:\Trace\Clientlogs" />
+  <images dir="..\..\Icons" />
+  <Exported dir="" />
+</configuration>
+```
