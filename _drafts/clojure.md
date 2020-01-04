@@ -464,3 +464,47 @@ Example:
     (catch Exception e (println "expception:" (.getMessage e)))
     (finally (println x))))
 ```
+
+## Namespace
+
+Example:
+
+```clojure
+(ns example.petage
+  (:require [clojure.string :refer [capitalize]]))
+
+(defn transformString
+  ""
+  []
+  (println (capitalize "hello")))
+```
+
+## Watch
+
+Example:
+
+```clojure
+(defn watchfn
+  "Watch function"
+  []
+  (def x (atom 5))
+  (add-watch x :watchatom
+             (fn [key-value watch-value old-state new-state]
+               (println "Key:" key-value)
+               (println "Watching:" watch-value)
+               (println "Old-State:" old-state)
+               (println "New-State:" new-state)))
+  (reset! x 50)
+  (remove-watch x :watchatom)
+  (reset! x 100))
+```
+
+Output:
+
+```
+Key: :watchatom
+Watching: #atom[50 0xfb805b5]
+Old-State: 5
+New-State: 50
+100
+```

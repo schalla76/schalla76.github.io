@@ -66,3 +66,23 @@ Application.CutCopyMode = False
 Application.ScreenUpdating = True
 End Sub
 ```
+
+## Formula to conditional formating the cells for invalid data
+
+[Source: Case in sensitive search](https://exceljet.net/formula/case-sensitive-match)
+
+[Source: SUMPRODUCT formula](https://exceljet.net/excel-functions/excel-sumproduct-function)
+
+[Source: Double Negative operator](https://exceljet.net/the-double-negative-in-excel-formulas)
+
+```vb
+=IF(NOT(ISBLANK(D2)), SUMPRODUCT((--EXACT(D2, Type)))=0)
+
+'Tye is the named range pointing to the datalist
+```
+
+- The conditional formulas don't support array formulas when the conditional formatting added from vba code.
+- EXACT returns the array with true and false. True for exact match
+- Double negative operator converts true to 1 and false to 0
+- SUMPRODUCT takes single/two arrays of equal size. When supplied with two arrays then it would first multiply the values and then sums them up. If single array is supplied then it just sums them up.
+- The result is not array so we don't need to press alt enter and could be used in the conditional formula when added from the vba code.
