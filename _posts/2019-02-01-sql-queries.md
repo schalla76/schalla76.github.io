@@ -16,7 +16,8 @@ categories: sql spf
   - [Find VTL Tables related to Jobs](#find-vtl-tables-related-to-jobs)
   - [Query Classification Tree](#query-classification-tree)
   - [Query EnumListTypes Tree](#query-enumlisttypes-tree)
-  - [Query Classifications](#query-classifications)
+  - [Query Classifications with Enums](#query-classifications-with-enums)
+  - [Query Enums numbers](#query-enums-numbers)
 
 ## Utility Queries
 
@@ -367,7 +368,9 @@ SELECT lt.robjname, rt.objname, lt.robjuid, rt.objuid, lt.robjdefuid, rt.OBJDEFU
 SELECT * FROM rightTable;
 ```
 
-### Query Classifications
+### Query Classifications with Enums
+
+For **MsSql**
 
 ```sql
 WITH rightTable(lobjname, robjname, lobjuid, robjuid, reldef, lvl) AS (
@@ -406,3 +409,19 @@ SELECT lobjname, robjname, lobjuid, robjuid, reldef, lvl, dr.uid2 as EnumParent,
    AND dr2.TERMINATIONDATE = '9999/12/31-23:59:59:999'
  order by lvl, lobjname, robjname;
 ```
+
+### Query Enums numbers
+
+For **MsSql**
+
+```sql
+SELECT so.OBJNAME, sp.STRVALUE, so.OBJUID
+  FROM schemaobj so
+  JOIN schemaobjpr sp
+    ON so.OBID = sp.OBJOBID
+   AND so.TERMINATIONDATE = '9999/12/31-23:59:59:999'
+   AND sp.TERMINATIONDATE = '9999/12/31-23:59:59:999'
+ WHERE sp.propertydefuid = 'EnumNumber' 
+ --AND so.OBJUID like '%FDW%'
+ ORDER BY ABS(strvalue) DESC
+ ```
