@@ -58,7 +58,7 @@ code --install-extension betterthantomorrow.calva                       # Clojur
   "mssql.format.placeSelectStatementReferencesOnNewLine": true,
   "editor.fontLigatures": true,
   "editor.fontFamily": "'Fira Code iScript'",
-  "editor.wordWrap": "on"
+  "editor.wordWrap": "on",
   "window.autoDetectHighContrast": false
 }
 ```
