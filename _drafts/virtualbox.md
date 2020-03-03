@@ -13,18 +13,21 @@
 [Source link](https://hexagonppm.fluidtopics.net/reader/sdCFN~hAeetAIBD8uL2j_A/oZwZa8Isxm34dLI5EqZF_A)
 
 - The Web Server (IIS) role must be installed, including:
+
   - Security > Basic Authentication
   - Application Development
     - .NET Extensibility 4.6
     - ASP.NET 4.6
 
 - The .NET Framework 4.6 feature must be installed, including:
+
   - WCF Services
     - HTTP Activation
     - Named Pipes Activation
     - TCP Activation
 
 - The Windows Process Activation Service feature must be installed, including:
+
   - Process Model
   - Configuration APIs
 
@@ -35,7 +38,6 @@
 - Microsoft Visual C++ 2017 64-bit Redistributable Package (for file service compression functionality)
 
 - Install software using chocolatey
-  
 
 ```ps
 ((new-object net.webclient).DownloadFile('https://chocolatey.org/install.ps1','install.ps1'))
@@ -61,12 +63,35 @@ choco install sql-server-management-studio -y
 choco install citrix-workspace -y
 ```
 
+- Visual Studio and Winmerge configuration
+
+Compare: /e /u /wl /wr /dl %6 /dr %7 %1 %2
+Merge: /e /u /wl /dl %6 /dr %7 %1 %2 %4
+
+| Option | Description                                     |
+| ------ | ----------------------------------------------- |
+| /e     | Esc to close                                    |
+| /u     | Avoids adding to Most Recently used menu        |
+| /wl    | Opens left side as readonly                     |
+| wr     | Opens right side as readonly                    |
+| dl     | Provides the description on the left title bar  |
+| dr     | Provides the description on the right title bar |
+| %1     | Original file                                   |
+| %2     | Modified file                                   |
+| %3     | Base file                                       |
+| %4     | Merged file                                     |
+| %5     | Diff command line options                       |
+| %6     | Original file label                             |
+| %7     | Modified file label                             |
+| %8     | Base file label                                 |
+| %9     | Merged file label                               |
+
 - Other software
 
 .Net Reflector
 
 - Setup the cmder to open in powershell admin
-- Update the cmder profile 
+- Update the cmder profile
 - Install vscode extensions
 
 - Take the snapshot of the VM

@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Clojure Book Notes"
+date: 2019-12-31
+categories: clojure
+---
+
 # Clojure Book Notes
 
 ## Project file sample
@@ -207,3 +214,137 @@ name-space/method-name
 
 - Everything is clojure is true except false and nil
 - Seq returns the nil if the vector is empty
+
+## Scope
+
+The names for the function and symbols are same
+
+## Regular expression
+
+Example:
+
+```clj
+#"Test"
+```
+
+## Persistence
+
+- The vectors, lists, maps etc are immutable
+
+## Sequences
+
+- The sequential include list, vectors and java arrays
+- set and map are not sequential
+
+## Seqence functions
+
+- first
+- rest
+
+## Vectorss
+
+- vec function returns vector
+
+```clj
+- (vec (range 10))
+```
+
+- into function adds more items to vector
+
+```clj
+(let [my-vector [:a :b :c]]
+(into my-vector (range 10)))
+;=> [:a :b :c 0 1 2 3 4 5 6 7 8 9]
+```
+
+- vector-of function allow same data-type in the vector
+
+```clj
+(into (vector-of :int) [Math/PI 2 1.3])
+;=> [3 2 1]
+(into (vector-of :char) [100 101 102])
+;=> [\d \e \f]
+```
+
+- Accessing nth element
+
+```clj
+(def a-to-j (vec (map char (range 65 75))))
+a-to-j
+;;=> [\A \B \C \D \E \F \G \H \I \J]
+
+;nth function
+;throws exception if vector empty
+;supports not found argument
+(nth a-to-j 4)
+;;=> \E
+
+;get function
+;returns nil if empty vector
+;supports not found argument
+(get a-to-j 4)
+;;=> \E
+
+;vector as function
+;throws exception if vector empty
+;does not supports not found argument
+
+(a-to-j 4)
+;;=> \E
+```
+
+- assoc changes the nh element of vector and return new vector
+
+```clj
+(assoc a-to-j 4 "no longer E")
+;=> [\A \B \C \D "no longer E" \F \G \H \I \J]
+```
+
+- replace function replaces multiple items
+
+```clj
+(replace {2 :a, 4 :b} [1 2 3 2 3 4])
+;=> [1 :a 3 :a 3 :b]
+```
+
+- assoc-in, get-in and update-in changes items in nested structures
+
+## Understanding thead macors
+
+[Understanding Clojure's thread macros](https://www.youtube.com/watch?v=qxE5wDbt964&t=236s)
+
+- Use thread last (->>) macro for sequences
+- Use thread first (->) macro for objects (getter and setter)
+- We can use three (,,,) for the replacement arguments for readability
+- Clojure.walk/macroexpand-all expand the macro
+- We can use comment reader macro (#\_) to comment part of thread macro
+- We can start with thread first and switch to thread last but if you start with thread last then to switch to thread first we need to use anonymous functions.
+
+## Understanding list comprehension in Clojure
+
+[Understanding list comprehension in Clojure](https://www.youtube.com/watch?v=5lvV9ICwaMo&t=1087s)
+
+Examples:
+
+```clj
+(defn listcomprehension
+  []
+  (count (for [tumbler-1 (range 10)
+               tumbler-2 (range 10)
+               tumbler-3 (range 10)
+               :when (and (or (= tumbler-1 4)
+                              (= tumbler-2 4))
+                          (= tumbler-3 4))]
+           [tumbler-1 tumbler-2 tumbler-3])))
+
+(defn ticket-number
+  []
+  (def blacklisted #{\I \O})
+  (def capital-letters (map char (range (int \A) (inc (int \Z)))))
+
+  (for [letter-1 capital-letters
+        letter-2 capital-letters
+        :when (and (not (blacklisted letter-1))
+                   (not (blacklisted letter-2)))]
+    (str letter-1 letter-2)))
+```

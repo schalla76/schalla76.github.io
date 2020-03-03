@@ -7,29 +7,36 @@ categories: powershell
 
 ## Spliting the path
 
-`$env:path.split(";")`
+```ps
+$env:path.split(";")
+```
 
 ## Get All environment variables
 
-`gci env:`
+```ps
+gci env:
+```
 
 ## Powershell version
 
-`$PSVersionTable.PSVersion`
-
-`$PSVersionTable`
+```ps
+$PSVersionTable.PSVersion
+$PSVersionTable
+```
 
 ## Powershell History using PSReadline
 
-`(Get-PSReadlineOption).HistorySavePath`
+```ps
+(Get-PSReadlineOption).HistorySavePath
+```
 
 ## Get Profile path
 
-`$profile`
-
-`$PROFILE | Get-Member -MemberType noteproperty`
-
-`$PROFILE | Get-Member -MemberType noteproperty | select name`
+```ps
+$profile
+$PROFILE | Get-Member -MemberType noteproperty
+$PROFILE | Get-Member -MemberType noteproperty | select name
+```
 
 ## Calling the powershell functions
 
@@ -37,28 +44,41 @@ categories: powershell
 
 ## Get Powershell modules path
 
-`$env:PSModulePath`
-
-`$env:PSModulePath.split(";")`
+```ps
+$env:PSModulePath
+$env:PSModulePath.split(";")
+```
 
 ## Get/Set Reqiestry Keys
 
 ### List all the drives including the registy Keys
 
-`Get-PSDrive`
+```ps
+Get-PSDrive
+```
 
 ### Change to a drives
 
-`CD HKCU:\`
+```ps
+CD HKCU:\
+```
 
 ### To set a Keys
 
-`Set-Itemproperty -path 'HKCU:\Control Panel\Colors' -Name 'ActiveBorder' -value '0 255 255'`
+```ps
+Set-Itemproperty -path 'HKCU:\Control Panel\Colors' -Name 'ActiveBorder' -value '0 255 255'
+```
 
 ## Setting Execution Policy
 
-`Get-ExecutionPolicy -List`
+```ps
+Get-ExecutionPolicy -List
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
+```
 
-`Set-ExecutionPolicy -ExecutionPolicy Unrestricted`
+## Get the file abosulte file path
 
-`Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine`
+```ps
+get-childitem -recurse | where {$_.extension -like ".xls*"} | % { Write-Host $_.FullName }
+```
