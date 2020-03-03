@@ -55,7 +55,8 @@ code --install-extension firefox-devtools.vscode-firefox-debug          # Firefo
   "mssql.format.keywordCasing": "uppercase",
   "mssql.format.placeSelectStatementReferencesOnNewLine": true,
   "editor.fontLigatures": true,
-  "editor.fontFamily": "'Fira Code iScript'"
+  "editor.fontFamily": "'Fira Code iScript'",
+  "editor.wordWrap": "on"
 }
 ```
 
