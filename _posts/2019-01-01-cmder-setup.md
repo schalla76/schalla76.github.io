@@ -30,8 +30,4 @@ $MyModules = "C:\Users\Administrator\Work\bitbucket\myutilities\MyScripts\MyModu
 if ( -not $env:PSModulePath.Contains($MyModules) ) {
 $env:PSModulePath = $env:PSModulePath.Insert(0, "$MyModules;")
 }
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> refs/remotes/origin/master

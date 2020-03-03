@@ -3,7 +3,7 @@
 ## Extensions
 
 ```
-code --install-extension christian-kohler.npm-intellisense              # NPM Intellisence
+code --install-extension christian-kohler.npm-intellisense              # NPM Intellisense
 code --install-extension dbaeumer.vscode-eslint                         # Es lint
 code --install-extension donjayamanne.githistory                        # git History
 code --install-extension DotJoshJohnson.xml                             # XML Tools
@@ -27,10 +27,12 @@ code --install-extension Tyriar.sort-lines                              # Sort L
 code --install-extension uizhou.githd                                   # git Diff
 code --install-extension wix.vscode-import-cost                         # Import Cost
 code --install-extension yzhang.markdown-all-in-one                     # markdown util
-code --install-extension davidanson.vscode-markdownlint                 # markdonw lint
-code --install-extension yzane.markdown-pdf                             # markdonw pdf
+code --install-extension davidanson.vscode-markdownlint                 # markdown lint
+code --install-extension yzane.markdown-pdf                             # markdown pdf
 code --install-extension streetsidesoftware.code-spell-checker          # spell checker
 code --install-extension firefox-devtools.vscode-firefox-debug          # Firefox debugger
+code --install-extension betterthantomorrow.calva                       # Clojure extension
+
 ```
 
 ## Settings

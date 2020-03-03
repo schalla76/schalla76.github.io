@@ -6,9 +6,9 @@ categories: sql spf
 ---
 
 - [Utility Queries](#utility-queries)
-  - [Setup new daabase and user](#setup-new-daabase-and-user)
+  - [Setup new database and user](#setup-new-database-and-user)
   - [Search for tables and columns](#search-for-tables-and-columns)
-  - [Reindex tables](#reindex-tables)
+  - [Re-index tables](#re-index-tables)
   - [Find row count in all tables](#find-row-count-in-all-tables)
 - [SPF Queries](#spf-queries)
   - [Check the documents count](#check-the-documents-count)
@@ -18,10 +18,14 @@ categories: sql spf
   - [Query EnumListTypes Tree](#query-enumlisttypes-tree)
   - [Query Classifications with Enums](#query-classifications-with-enums)
   - [Query Enums numbers](#query-enums-numbers)
+  - [Query Import Definition Order Values](#query-import-definition-order-values)
+  - [Query the missing files in the vault](#query-the-missing-files-in-the-vault)
+  - [Password Reset](#password-reset)
+  - [Find documents without security code](#find-documents-without-security-code)
 
 ## Utility Queries
 
-### Setup new daabase and user
+### Setup new database and user
 
 For **Oracle**
 
@@ -96,31 +100,31 @@ For **MsSql**
 --SEARCH TABLES
 SELECT USER_NAME(SO.UID)
       ,SO.NAME TABLE_NAME
-	  ,SO.XTYPE TYPE
+    ,SO.XTYPE TYPE
   FROM SYSOBJECTS SO
  WHERE UPPER(SO.NAME) LIKE '%cmpnt_func_type_name%'
    AND SO.XTYPE IN ('U','V')
 GROUP BY
        USER_NAME(SO.UID)
       ,SO.NAME
-	  ,SO.XTYPE
+    ,SO.XTYPE
 
 --SEARCH COLUMNS
 SELECT USER_NAME(SO.UID)
       ,SO.NAME TABLE_NAME
-	  ,SC.NAME COLUMN_NAME
-	  ,SO.XTYPE TYPE
+    ,SC.NAME COLUMN_NAME
+    ,SO.XTYPE TYPE
   FROM SYSOBJECTS SO
   JOIN SYSCOLUMNS SC
     ON SO.ID = SC.ID
    AND UPPER(SC.NAME) LIKE '%PD_UDF_C04%'
 GROUP BY USER_NAME(SO.UID)
       ,SO.NAME
-	  ,SC.NAME
-	  ,SO.XTYPE
+    ,SC.NAME
+    ,SO.XTYPE
 ```
 
-### Reindex tables
+### Re-index tables
 
 For **MsSql**
 
@@ -167,7 +171,7 @@ For **MsSql**
 ```sql
  IF EXISTS(SELECT name FROM sysobjects WHERE id = OBJECT_ID('dbo.sp_delete_all_terminated_Objects'))
 BEGIN
-	DROP PROCEDURE dbo.sp_delete_all_terminated_Objects
+  DROP PROCEDURE dbo.sp_delete_all_terminated_Objects
 END
 
 GO
@@ -176,103 +180,103 @@ CREATE PROCEDURE dbo.sp_delete_all_terminated_Objects
 AS
 BEGIN
 
-	DECLARE @id INT
-	DECLARE @count VARCHAR(256)
-	DECLARE @rowcount TABLE (Value int);
-	DECLARE @SELECTSQL VARCHAR(2000)
-	DECLARE @SELECTSQL2 VARCHAR(2000)
-	DECLARE @IFEXISTSSQL VARCHAR(3000)
-	DECLARE @tablename VARCHAR(256)
-	DECLARE @schemaname VARCHAR(256)
+  DECLARE @id INT
+  DECLARE @count VARCHAR(256)
+  DECLARE @rowcount TABLE (Value int);
+  DECLARE @SELECTSQL VARCHAR(2000)
+  DECLARE @SELECTSQL2 VARCHAR(2000)
+  DECLARE @IFEXISTSSQL VARCHAR(3000)
+  DECLARE @tablename VARCHAR(256)
+  DECLARE @schemaname VARCHAR(256)
 
 
-	/*
-	dbo.sp_delete_all_terminated_Objects
+  /*
+  dbo.sp_delete_all_terminated_Objects
     */
 
-	CREATE TABLE #vtlTempTables(
-				 dropSql NCHAR(2000)
-				)
+  CREATE TABLE #vtlTempTables(
+         dropSql NCHAR(2000)
+        )
 
-	CREATE TABLE #tableswithterminationDate(
-				 tablename NCHAR(256)
-				,numberofrows NCHAR(256)
-				,schemaname NCHAR(256)
-				,id INT identity(1,1)
+  CREATE TABLE #tableswithterminationDate(
+         tablename NCHAR(256)
+        ,numberofrows NCHAR(256)
+        ,schemaname NCHAR(256)
+        ,id INT identity(1,1)
                 ,found BIT
                 ,selectsql VARCHAR(2000)
-				)
+        )
 
-	PRINT 'Before running this proc, close all application which use this database'
+  PRINT 'Before running this proc, close all application which use this database'
 
 
-	INSERT INTO #vtlTempTables(
+  INSERT INTO #vtlTempTables(
            dropSql
-		  )
+      )
     SELECT 'DROP TABLE ' + RTRIM(user_name(so.uid)) + '.' +  so.name + ';'
-	  FROM sysobjects so
-	 WHERE so.xtype in ('U', 'V')
-	   AND so.name like 'VTL%'
-	   AND SO.NAME NOT IN ('VTLOBJ', 'VTLOBJIF', 'VTLOBJPR', 'VTLOBJPRDETAIL', 'VTLREL')
+    FROM sysobjects so
+   WHERE so.xtype in ('U', 'V')
+     AND so.name like 'VTL%'
+     AND SO.NAME NOT IN ('VTLOBJ', 'VTLOBJIF', 'VTLOBJPR', 'VTLOBJPRDETAIL', 'VTLREL')
   GROUP BY so.xtype
-	     , so.name
+       , so.name
          , user_name(so.uid)
 
 
   select * from #vtlTempTables;
 
-	INSERT INTO #tableswithterminationDate(
+  INSERT INTO #tableswithterminationDate(
            tablename
           ,schemaname)
     SELECT so.name
-		 , user_name(so.uid) as tableschema
-	  FROM sysobjects so join syscolumns sc on so.id = sc.id
-	   AND sc.name = 'TERMINATIONDATE'
-	   AND so.xtype in ('U')
-	   AND type_name(sc.xtype) in ('nchar', 'char', 'nvarchar', 'varchar')
+     , user_name(so.uid) as tableschema
+    FROM sysobjects so join syscolumns sc on so.id = sc.id
+     AND sc.name = 'TERMINATIONDATE'
+     AND so.xtype in ('U')
+     AND type_name(sc.xtype) in ('nchar', 'char', 'nvarchar', 'varchar')
   GROUP BY  sc.name
          , so.xtype
-	     , so.name
+       , so.name
          , user_name(so.uid)
-  ORDER BY tableschema desc	;
+  ORDER BY tableschema desc  ;
 
 
 
   SELECT @id =MAX(id) FROM #tableswithterminationDate
 
-	WHILE (@id is NOT NULL)
-	BEGIN
+  WHILE (@id is NOT NULL)
+  BEGIN
 
-		SELECT @tablename = tablename
+    SELECT @tablename = tablename
              , @schemaname = schemaname
           FROM #tableswithterminationDate
          WHERE id = @id
 
-		SELECT @SELECTSQL = 'SELECT count(1) FROM ' +  RTRIM(@schemaname) + '.' + RTRIM(@tablename) + ' WHERE TERMINATIONDATE <> ''9999/12/31-23:59:59:999''';
+    SELECT @SELECTSQL = 'SELECT count(1) FROM ' +  RTRIM(@schemaname) + '.' + RTRIM(@tablename) + ' WHERE TERMINATIONDATE <> ''9999/12/31-23:59:59:999''';
 
-		SELECT @SELECTSQL2 = 'DELETE FROM ' +  RTRIM(@schemaname) + '.' + RTRIM(@tablename) + ' WHERE TERMINATIONDATE <> ''''9999/12/31-23:59:59:999'''';';
+    SELECT @SELECTSQL2 = 'DELETE FROM ' +  RTRIM(@schemaname) + '.' + RTRIM(@tablename) + ' WHERE TERMINATIONDATE <> ''''9999/12/31-23:59:59:999'''';';
 
-		print(@SELECTSQL)
+    print(@SELECTSQL)
 
-		INSERT INTO @rowcount EXEC(@SELECTSQL)
+    INSERT INTO @rowcount EXEC(@SELECTSQL)
 
-		SELECT @count = Value FROM @rowcount;
+    SELECT @count = Value FROM @rowcount;
 
-		print(@count)
+    print(@count)
 
-		SELECT @IFEXISTSSQL = 'IF ( ' + @count + ' > 0 )' +
-							' BEGIN' +
-								' UPDATE #tableswithterminationDate' +
-								   ' SET found = 1' +
-								   '   , selectsql = ''' + @SELECTSQL2 + '''' +
-								   ' , numberofrows = ' + @count +
-								 ' WHERE id = ' + CONVERT(VARCHAR(16), @id)  +
-							' END'
+    SELECT @IFEXISTSSQL = 'IF ( ' + @count + ' > 0 )' +
+              ' BEGIN' +
+                ' UPDATE #tableswithterminationDate' +
+                   ' SET found = 1' +
+                   '   , selectsql = ''' + @SELECTSQL2 + '''' +
+                   ' , numberofrows = ' + @count +
+                 ' WHERE id = ' + CONVERT(VARCHAR(16), @id)  +
+              ' END'
 
 
-		EXEC(@IFEXISTSSQL)
+    EXEC(@IFEXISTSSQL)
 
-		SELECT @id=MAX(id) FROM #tableswithterminationDate WHERE id < @id
+    SELECT @id=MAX(id) FROM #tableswithterminationDate WHERE id < @id
 
     END
 
@@ -280,8 +284,8 @@ BEGIN
       FROM #tableswithterminationDate
      WHERE found = 1
 
-	DROP table #tableswithterminationDate
-	DROP table #vtlTempTables
+  DROP table #tableswithterminationDate
+  DROP table #vtlTempTables
 END
 ```
 
@@ -292,9 +296,9 @@ For **MsSql**
 ```sql
 SELECT USER_NAME(SO.UID)
       ,SO.NAME TABLE_NAME
-	  ,SO.XTYPE TYPE
-	  ,SCO.OBJNAME
-	  ,SCO.OBJDEFUID
+    ,SO.XTYPE TYPE
+    ,SCO.OBJNAME
+    ,SCO.OBJDEFUID
   FROM SYSOBJECTS SO
 --JOIN DATAOBJ SCO
   JOIN SCLBOBJ SCO
@@ -305,9 +309,9 @@ SELECT USER_NAME(SO.UID)
 GROUP BY
        USER_NAME(SO.UID)
       ,SO.NAME
-	  ,SO.XTYPE
-	  ,SCO.OBJNAME
-	  ,SCO.OBJDEFUID
+    ,SO.XTYPE
+    ,SCO.OBJNAME
+    ,SCO.OBJDEFUID
 ```
 
 ### Query Classification Tree
@@ -421,7 +425,148 @@ SELECT so.OBJNAME, sp.STRVALUE, so.OBJUID
     ON so.OBID = sp.OBJOBID
    AND so.TERMINATIONDATE = '9999/12/31-23:59:59:999'
    AND sp.TERMINATIONDATE = '9999/12/31-23:59:59:999'
- WHERE sp.propertydefuid = 'EnumNumber' 
+ WHERE sp.propertydefuid = 'EnumNumber'
  --AND so.OBJUID like '%FDW%'
  ORDER BY ABS(strvalue) DESC
- ```
+```
+
+### Query Import Definition Order Values
+
+For **MsSql**
+
+```sql
+ select so2.OBJNAME, sp.STRVALUE, sr.TERMINATIONDATE
+  from schemaobj so
+  JOin SCHEMAREL sr
+    on so.OBJUID = sr.UID1
+   and sr.DEFUID = 'VTLImportDefHeader'
+  join SCHEMAOBJ so2
+    on sr.UID2 = so2.OBJUID
+   --and so2.OBJNAME in ('COMP_PlantCodeValue', 'COMP_PlantCode')
+   and so.OBJNAME = 'Document Create Mapping'
+  JOIN SCHEMAOBJPR sp
+    on sp.OBJOBID = sr.OBID
+   and sp.PROPERTYDEFUID = 'OrderValue'
+   order by ABS(sp.strvalue)
+```
+
+### Query the missing files in the vault
+
+For **MsSql**
+
+```sql
+-- Function to find if file exists
+CREATE or ALTER FUNCTION dbo.fn_FileExists(@path varchar(512))
+RETURNS BIT
+AS
+BEGIN
+     DECLARE @result INT
+     EXEC master.dbo.xp_fileexist @path, @result OUTPUT
+     RETURN cast(@result as bit)
+END;
+GO
+
+-- Query all files with FilePath and FileExists flag
+select * from (
+  select fd.OBJNAME as FileName
+       , concat(vp.STRVALUE, '\', fp.STRVALUE) as FilePath
+       , dbo.fn_FileExists(concat(vp.STRVALUE, '\', fp.STRVALUE)) as FileExists
+    from DATAOBJ fd
+    join DATAREL fr
+      on fd.OBJUID = fr.UID1
+     and fr.DEFUID = 'SPFFileVault'
+     --and upper(fd.OBJDEFUID) like '%FILE%'
+     and fd.TERMINATIONDATE = '9999/12/31-23:59:59:999'
+     and fr.TERMINATIONDATE = '9999/12/31-23:59:59:999'
+    join DATAOBJPR fp
+      on fp.OBJOBID = fd.OBID
+     and fp.PROPERTYDEFUID = 'SPFRemoteFileName'
+     and fp.TERMINATIONDATE = '9999/12/31-23:59:59:999'
+    join SCHEMAOBJ vd
+      on vd.OBJUID = fr.uid2
+     and vd.TERMINATIONDATE = '9999/12/31-23:59:59:999'
+    join SCHEMAOBJPR vp
+      on vp.OBJOBID = vd.OBID
+     and vp.PROPERTYDEFUID = 'SPFLocalPath'
+     and vp.TERMINATIONDATE = '9999/12/31-23:59:59:999') FileData
+ where FileExists = 0;
+```
+
+- The above FileExists may not evaluate properly if the user running SQL service does not have access to the file path (example: for network files etc).
+- The work around is:
+
+  - Copy the query output to a excel(.xlsm) file.
+  - Go to Excel VBA code editor (Alt+F12)
+  - Insert a module and add below vba code to the module
+  - Add a column in the Excel and use the formula =FileExists
+
+```vb
+Function FileExists(sPath As String) As Boolean
+    On Error GoTo HandleError
+    FileExists = Dir(sPath) <> ""
+HandleError:
+    FileExists = False
+End Function
+```
+
+### Password Reset
+
+select dd.OBJNAME, dd.CONFIG, dd.OBJDEFUID, dr.DEFUID
+from DOCOBJ dd
+LEFT JOIN DOCREL dr
+on dr.UID1 = dd.OBJUID
+and dr.DEFUID = 'SDAItemSecurityCode'
+and dr.TERMINATIONDATE = '9999/12/31-23:59:59:999'
+WHERE dd.OBJDEFUID = 'FDWDocumentMaster'
+and dr.uid2 is null
+and dd.TERMINATIONDATE = '9999/12/31-23:59:59:999'
+
+[Source link](https://www.ateam-oracle.com/avoiding-and-resetting-expired-passwords-in-oracle-databases)
+
+**Run below commands as 'sys' user connected with 'SYSDBA' role.**
+
+- Reset the password expiration policy to unlimitted
+
+```sql
+-- Find the exist password policy
+select *
+  from dba_profiles
+ where resource_name = 'PASSWORD_LIFE_TIME';
+
+-- Reset password policy. Replace the profile name with actual profile name
+ALTER PROFILE <profile name> LIMIT PASSWORD_LIFE_TIME UNLIMITED;
+```
+
+- Unlock the user accounts
+
+```sql
+select 'ALTER USER '|| USERNAME || ' account unlock;'
+  from dba_users
+ where ACCOUNT_STATUS like '%LOCKED%';
+```
+
+- Reset the user password to same old password
+
+```sql
+-- The oracle 11g onwards the password is stored in the spare4 column of sys.user$ table. Below the dba_users and user$ tables are joined using username=name
+
+select 'ALTER USER '|| USERNAME || ' identified by values ''' || spare4 || ''';'
+  from  dba_users,user$
+ where ACCOUNT_STATUS like '%EXPIRED%' and USERNAME=NAME;
+```
+
+### Find documents without security code
+
+**For MsSql**
+
+```sql
+select dd.OBJNAME, dd.CONFIG, dd.OBJDEFUID, dr.DEFUID
+  from DOCOBJ dd
+  LEFT JOIN DOCREL dr
+    on dr.UID1 = dd.OBJUID
+   and dr.DEFUID = 'SDAItemSecurityCode'
+   and dr.TERMINATIONDATE = '9999/12/31-23:59:59:999'
+ WHERE dd.OBJDEFUID = 'FDWDocumentMaster'
+   and dr.uid2 is null
+   and dd.TERMINATIONDATE = '9999/12/31-23:59:59:999'
+```
