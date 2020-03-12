@@ -1,5 +1,9 @@
-# Setting up VirtualBox
-
+---
+layout: post
+title: "Setting up VirtualBox"
+date: 2020-01-09
+categories: Virtual Machine
+---
 ## Window 2016 Server
 
 ### Install Software

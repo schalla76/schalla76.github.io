@@ -4,9 +4,6 @@ title: "Clojure Youtube Videos"
 date: 2019-12-31
 categories: clojure
 ---
-
-# Clojure Youtube Videos
-
 ## [Mark Engelberg - Instaparse](https://www.youtube.com/watch?v=b2AUW6psVcE)
 
 ## [Solving Problems with Automata - Mark Engelberg & Alex Engelberg](https://www.youtube.com/watch?v=AEhULv4ruL4)
