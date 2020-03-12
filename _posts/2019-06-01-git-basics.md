@@ -310,3 +310,17 @@ Run `ssh-keygen` command and accept defaults to generate the keys.
 This will generate id_rsa and id_rsa.pub files.
 id_rsa is private key and don't share this. id_rsa.pub is public key and can be added to online git repositories settings.
 ```
+
+### .git sample
+
+```
+[credential]
+	helper = manager	
+[alias]
+	acp = "!f() { git add -A && git commit -m \"$@\" && git push; }; f"
+    history = "log --all --decorate --oneline --graph"
+
+[user]
+	email = firstname.lastname@gmail.com
+	name = First Name Last Name
+```

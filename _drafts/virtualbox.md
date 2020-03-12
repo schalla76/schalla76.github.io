@@ -65,6 +65,8 @@ choco install citrix-workspace -y
 
 - Visual Studio and Winmerge configuration
 
+  - Go to Tools>Options>Source Control>Visual Studio Team Foundation Server>Configure User Tools...
+
 Compare: /e /u /wl /wr /dl %6 /dr %7 %1 %2
 Merge: /e /u /wl /dl %6 /dr %7 %1 %2 %4
 
