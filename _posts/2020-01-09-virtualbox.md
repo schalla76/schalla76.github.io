@@ -92,13 +92,14 @@ Merge: /e /u /wl /dl %6 /dr %7 %1 %2 %4
 | %8     | Base file label                                 |
 | %9     | Merged file label                               |
 
+- Install VS Extension
+  - Install the extension .Net Reflector
+  - Install the extension [ReAttach](https://marketplace.visualstudio.com/items?itemName=ErlandR.ReAttach)
+  
 - Other software
-
-.Net Reflector
-
-- Setup the cmder to open in powershell admin
-- Update the cmder profile
-- Install vscode extensions
+  - Setup the cmder to open in powershell admin
+  - Update the cmder profile
+  - Install vscode extensions
 
 - Take the snapshot of the VM
 
