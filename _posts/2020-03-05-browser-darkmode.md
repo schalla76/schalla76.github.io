@@ -48,7 +48,7 @@ toolkit.legacyUserProfileCustomizations.stylesheets: true
 browser.startup.blankWindow: false
 ```
 
-## Set dark theme
+## Set dark theme in firefox browser
 
 - Use any dark theme
 - Set the Option in firefox setting: Override the colors specified by the page with your selections above: Never
