@@ -4,6 +4,7 @@ title: "Setting up VirtualBox"
 date: 2020-01-09
 categories: Virtual Machine
 ---
+
 ## Window 2016 Server
 
 ### Install Software
@@ -91,13 +92,23 @@ Merge: /e /u /wl /dl %6 /dr %7 %1 %2 %4
 | %8     | Base file label                                 |
 | %9     | Merged file label                               |
 
+- Install VS Extension
+
+  - Install the extension .Net Reflector
+  - Install the extension [Roslynator](https://github.com/JosefPihrt/Roslynator)
+  - Install the extension [ReAttach](https://marketplace.visualstudio.com/items?itemName=ErlandR.ReAttach)
+  - Install the extension [Productivity Power Tools](https://marketplace.visualstudio.com/items?itemName=VisualStudioPlatformTeam.ProductivityPowerPack2017)
+  - Install the extension [Code Converter](https://marketplace.visualstudio.com/items?itemName=SharpDevelopTeam.CodeConverter)
+  - Install the extension [Microsoft Code Analysis 2019](https://marketplace.visualstudio.com/items?itemName=VisualStudioPlatformTeam.MicrosoftCodeAnalysis2019)
+  - Install the dark theme for high contrast using below links
+    - [Reddit link](https://www.reddit.com/r/VisualStudio/comments/7tbp6h/visual_studio_2017_high_contrast_theme_dark/)
+    - [Screenshots](https://imgur.com/a/TRcrE)
+
 - Other software
 
-.Net Reflector
-
-- Setup the cmder to open in powershell admin
-- Update the cmder profile
-- Install vscode extensions
+  - Setup the cmder to open in powershell admin
+  - Update the cmder profile
+  - Install vscode extensions
 
 - Take the snapshot of the VM
 

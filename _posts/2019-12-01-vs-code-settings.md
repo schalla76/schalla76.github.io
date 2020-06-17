@@ -32,7 +32,17 @@ code --install-extension yzane.markdown-pdf                             # markdo
 code --install-extension streetsidesoftware.code-spell-checker          # spell checker
 code --install-extension firefox-devtools.vscode-firefox-debug          # Firefox debugger
 code --install-extension betterthantomorrow.calva                       # Clojure extension
-
+code --install-extension ms-dotnettools.csharp                          # C# extension
+code --install-extension jchannon.csharpextensions                      # C# extension
+code --install-extension jmrog.vscode-nuget-package-manager             # C# extension
+code --install-extension johnpapa.angular2                              # Angular extension
+code --install-extension alexiv.vscode-angular2-files                   # Angular extension
+code --install-extension angular.ng-template                            # Angular extension
+code --install-extension infinity1207.angular2-switcher                 # Angular extension
+code --install-extension zignd.html-css-class-completion                # CSS extension
+code --install-extension pranaygp.vscode-css-peek                       # CSS extension
+code --install-extension thekalinga.bootstrap4-vscode                   # CSS bootstarp extension
+code --install-extension coenraads.bracket-pair-colorizer-2             # Brackets
 ```
 
 ## Settings
