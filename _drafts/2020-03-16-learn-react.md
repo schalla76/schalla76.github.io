@@ -1,9 +1,17 @@
 ---
 layout: post
 title: "Learning ReactJS"
-date: 2019-03-16
-categories: jS, React
+date: 2020-03-16
+categories: js, react, udemy
 ---
+
+## Course links
+
+[Udemy Course: Modern React with Redux](https://www.udemy.com/course/react-redux/)
+
+[Udemy Author: Stephen Grider](https://github.com/StephenGrider)
+
+[Github Sources](https://github.com/StephenGrider/ReduxCasts)
 
 ## Setting up the react js typescript environment
 

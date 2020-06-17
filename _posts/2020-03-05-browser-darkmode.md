@@ -24,11 +24,10 @@ categories: cmder setup
   browser[type="content"],
   tabbrowser#content,
   #content,
-  browser[type="content"] > html
-  {
-     background: #323234 !important;
+  browser[type="content"] > html {
+    background: #323234 !important;
   }
-} 
+}
 ```
 
 - userContent.css
@@ -36,15 +35,23 @@ categories: cmder setup
 ```css
 @charset "utf-8"; /* CSS Document */
 
-@-moz-document url("about:newtab") { body { background-color: #011326 !important;} }
+@-moz-document url("about:newtab") {
+  body {
+    background-color: #011326 !important;
+  }
+}
 
-@-moz-document url(chrome://browser/content/browser.xhtml) { browser[type="content-primary"] {background: #011326 !important} } 
+@-moz-document url(chrome://browser/content/browser.xhtml) {
+  browser[type="content-primary"] {
+    background: #011326 !important;
+  }
+}
 ```
 
 ## Update firefox flags
 
 ```
-toolkit.legacyUserProfileCustomizations.stylesheets: true 
+toolkit.legacyUserProfileCustomizations.stylesheets: true
 browser.startup.blankWindow: false
 ```
 
