@@ -43,6 +43,9 @@ code --install-extension zignd.html-css-class-completion                # CSS ex
 code --install-extension pranaygp.vscode-css-peek                       # CSS extension
 code --install-extension thekalinga.bootstrap4-vscode                   # CSS bootstarp extension
 code --install-extension coenraads.bracket-pair-colorizer-2             # Brackets
+code --install-extension formulahendry.dotnet-test-explorer             # Xunit Test
+code --install-extension vscode-icons-team.vscode-icons                 # Icons
+code --install-extension visualstudioexptteam.vscodeintellicode         # Icons
 ```
 
 ## Settings

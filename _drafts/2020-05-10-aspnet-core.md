@@ -36,7 +36,7 @@ dotnet new webapi
 
 - Add Data/DataContext inheriting DBContext
 - Add below line statup.cs/ConfigureServices :
-  
+
 ```cs
 services.AddDbContext<DataContext>(option => option.UseSqlite("ConnectionString"))
 ```
@@ -44,8 +44,6 @@ services.AddDbContext<DataContext>(option => option.UseSqlite("ConnectionString"
 - Add Model/<files.cs> is mapped to table
 
 ### Adding Repository files
-
-
 
 ## EntityFrameWork Commands
 
@@ -66,3 +64,7 @@ dotnet ef database update
 ```cmd
 dotnet ef database drop
 ```
+
+### Adding test cases
+
+[Integrated testing](https://asp.net-hacker.rocks/2019/01/18/integration-testing-data-access-dotnetcore.html)

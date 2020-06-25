@@ -59,3 +59,7 @@ browser.startup.blankWindow: false
 
 - Use any dark theme
 - Set the Option in firefox setting: Override the colors specified by the page with your selections above: Never
+
+## Themes shortcut
+
+ms-settings:themes

@@ -71,3 +71,9 @@ catch(WebException exp)
 ### Solution
 
 The SDx fails on the firefox on certain machine because of IP6 and you get **Error: Internal server error has occurred. Please check server logs**. When you check the authentication log file (<Site Folder>\SPFConfigService\SPFAuthentication\STSAuth.log), you can see that it fails in the method IPConfigurationUtilities. This could be because the firefox uses IP6 by default. To disable the IP6 on firefox, go to about:config and set true for the config flag network.dns.disableIPv6.
+
+## VS Code display issues in Virtual Box
+
+The VS code does not display the debug break points properly. To fix this issue we need to start the vs code with disable gpu acceleration option.
+
+[Refer to this link for more details](https://code.visualstudio.com/updates/v1_40#_disable-gpu-acceleration)
