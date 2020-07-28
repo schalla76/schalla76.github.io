@@ -72,7 +72,8 @@ code --install-extension visualstudioexptteam.vscodeintellicode         # Icons
   "editor.fontLigatures": true,
   "editor.fontFamily": "'Fira Code iScript'",
   "editor.wordWrap": "on",
-  "window.autoDetectHighContrast": false
+  "window.autoDetectHighContrast": false,
+  "editor.fontSize": 16
 }
 ```
 
