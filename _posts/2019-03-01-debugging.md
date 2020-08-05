@@ -181,3 +181,9 @@ Core framework used for debugging
   <Exported dir="" />
 </configuration>
 ```
+
+### SPF Web client prettier command
+
+```
+prettier --print-width 80 --no-semi --single-quote --trailing-comma es5 --write *.js
+```
