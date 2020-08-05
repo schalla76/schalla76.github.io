@@ -22,6 +22,7 @@ categories: sql spf
   - [Query the missing files in the vault](#query-the-missing-files-in-the-vault)
   - [Password Reset](#password-reset)
   - [Find documents without security code](#find-documents-without-security-code)
+  - [Find interfaces for a object by name](#find-interfaces-for-a-object-by-name)
 
 ## Utility Queries
 
@@ -569,4 +570,16 @@ select dd.OBJNAME, dd.CONFIG, dd.OBJDEFUID, dr.DEFUID
  WHERE dd.OBJDEFUID = 'FDWDocumentMaster'
    and dr.uid2 is null
    and dd.TERMINATIONDATE = '9999/12/31-23:59:59:999'
+```
+
+### Find interfaces for a object by name
+
+**For MsSql**
+
+```sql
+select dd.OBJNAME, dd.OBJDEFUID, di.INTERFACEDEFUID
+  from DATAOBJ dd
+  JOIN DATAOBJIF di
+    on di.OBJOBID = dd.OBID
+   AND dd.OBJNAME = 'Document-Name';
 ```
