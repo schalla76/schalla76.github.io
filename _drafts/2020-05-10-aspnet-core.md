@@ -47,22 +47,28 @@ services.AddDbContext<DataContext>(option => option.UseSqlite("ConnectionString"
 
 ## EntityFrameWork Commands
 
+### Install entity framework command line tools
+
+```cmd
+dotnet tool install --global dotnet-ef
+```
+
 ### Initial DB Create
 
 ```cmd
-dotnet ef migrations add InitialCreate
+dotnet-ef migrations add InitialCreate
 ```
 
 ### DB Update
 
 ```cmd
-dotnet ef database update
+dotnet-ef database update
 ```
 
 ### DB Drop
 
 ```cmd
-dotnet ef database drop
+dotnet-ef database drop
 ```
 
 ### Adding test cases

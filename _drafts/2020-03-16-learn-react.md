@@ -49,8 +49,54 @@ We can reference the Javascript object with curly braces.
 <div style={{ backgroundColor: "red" }}></div>
 ```
 
+### Install React router
+
+```cmd
+npm install react-router-dom
+```
+
 ### Create Fake Data
 
 [Faker JS](https://github.com/marak/Faker.js/)
 
 [Semantic UI](https://semantic-ui.com/)
+
+## Bootstrap Sass
+
+[Inspired by](https://github.com/loljoho/react-bootstrap-sass)
+
+### Install node-sass and bootstrap
+
+```cmd
+npm install node-sass bootstrap
+```
+
+### Rename all _.css to _.scss
+
+example:
+
+```cmd
+mv src/index.css to src/index.scss
+```
+
+### Change the reference to scss
+
+exmaple: index.scss
+
+```css
+@import "~bootstrap/scss/bootstrap";
+```
+
+### Copy the variables file to the src
+
+```cmd
+cp node_modules/bootstrap/scss/_variables.scss ./src/
+```
+
+### Add imports to index.scss
+
+```css
+@import "~bootstrap/scss/functions";
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+```

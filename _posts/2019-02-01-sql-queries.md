@@ -320,8 +320,8 @@ GROUP BY
 For **MsSql**
 
 ```sql
-WITH rightTable(lobjname, robjname, lobjuid, robjuid, reldef, lvl) AS (
-SELECT leftdata.objname, rightdata.objname, leftdata.objuid, rightdata.objuid, dr.defuid, 1 as lvl
+WITH rightTable(lobjname, lobjdesc, breadcrum, robjname, robjdesc, lobjuid, robjuid, reldef, lvl) AS (
+SELECT leftdata.objname, leftdata.DESCRIPTION, CAST(leftdata.objname as nvarchar(max)) as breadcrum, rightdata.objname, rightdata.DESCRIPTION, leftdata.objuid, rightdata.objuid, dr.defuid, 1 as lvl
   FROM dataobj leftdata
   JOIN datarel dr
     ON leftdata.objuid = dr.uid1
@@ -331,7 +331,7 @@ SELECT leftdata.objname, rightdata.objname, leftdata.objuid, rightdata.objuid, d
  WHERE leftdata.objdefuid in ('SDADocumentClassification')
    AND leftdata.objuid = 'SDC_Document_classifications'
  UNION ALL
-SELECT lt.robjname, rt.objname, lt.robjuid, rt.objuid, dr.defuid, lvl + 1 AS lvl
+SELECT lt.robjname, lt.lobjdesc, CONCAT(breadcrum, '-->', lt.robjname) as breadcrum, rt.objname, rt.DESCRIPTION, lt.robjuid, rt.objuid, dr.defuid, lvl + 1 AS lvl
   FROM rightTable lt
   JOIN datarel dr
     ON lt.robjuid = dr.uid1

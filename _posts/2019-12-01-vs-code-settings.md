@@ -48,6 +48,8 @@
 | Ts Lint                           | code --install-extension ms-vscode.vscode-typescript-tslint-plugin |
 | Xml Tools                         | code --install-extension DotJoshJohnson.xml                        |
 | Xunit Test                        | code --install-extension formulahendry.dotnet-test-explorer        |
+| Azure Account                     | code --install-extension ms-vscode.azure-account                   |
+| Azure Repos                       | code --install-extension ms-vsts.team                              |
 
 ## Settings
 
