@@ -26,7 +26,7 @@ npm install -g create-react-app
 ## Creating react js typescript app
 
 ```
-npx create-react-app app-name --typescript
+npx create-react-app app-name --template typescript
 ```
 
 ## Converting JSX to JS
