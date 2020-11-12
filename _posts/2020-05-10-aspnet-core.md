@@ -43,7 +43,11 @@ services.AddDbContext<DataContext>(option => option.UseSqlite("ConnectionString"
 
 - Add Model/<files.cs> is mapped to table
 
-### Adding Repository files
+### Adding refernce  project
+
+```cmd
+dotnet add reference <Reference Project Path>
+```
 
 ## EntityFrameWork Commands
 
