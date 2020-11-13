@@ -101,6 +101,18 @@ Merge: /e /u /wl /dl %6 /dr %7 %1 %2 %4
   - Install the extension [Code Converter](https://marketplace.visualstudio.com/items?itemName=SharpDevelopTeam.CodeConverter)
   - Install the extension [Microsoft Code Analysis 2019](https://marketplace.visualstudio.com/items?itemName=VisualStudioPlatformTeam.MicrosoftCodeAnalysis2019)
   - Install the dark theme for high contrast using below links
+    - Run regedit
+    - Select HKEY_USERS in the file tree on the left-hand side of the window.
+    - Load VS independent registry (hive) into HKEY_USERS.
+    - Navigate to HKEY_USERS > VS > Software > Microsoft > VisualStudio > 15.0_XXXXXXXX_Config > Themes.
+
+    The dark theme has a GUID of 1ded0138-47ce-435e-84ef-9ec1f439b749, while the high contrast theme has a GUID of a5c004b4-2d4b-494e-bf01-45fc492522c7. Copy the GUID and delete the registry of the high contrast theme (again, starting with a5c...) (you can back it up by right-clicking it and clicking Export if you wish).
+
+    Paste the GUID of the high contrast theme into the folder name (in the file tree) of the dark theme. Then click the dark theme folder and change "Dark" in the first entry to "High Contrast" and "Dark" in the second entry to "HighContrast." Keep the GUID for the dark theme in there.
+
+    Unload the hive. If you don't do this VS won't open.
+
+    Select VS back up in HKEY_USERS and click File > Unload Hive...
     - [Reddit link](https://www.reddit.com/r/VisualStudio/comments/7tbp6h/visual_studio_2017_high_contrast_theme_dark/)
     - [Screenshots](https://imgur.com/a/TRcrE)
 
