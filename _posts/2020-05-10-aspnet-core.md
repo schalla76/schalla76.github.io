@@ -43,7 +43,7 @@ services.AddDbContext<DataContext>(option => option.UseSqlite("ConnectionString"
 
 - Add Model/<files.cs> is mapped to table
 
-### Adding refernce  project
+### Adding refernce project
 
 ```cmd
 dotnet add reference <Reference Project Path>
@@ -61,6 +61,12 @@ dotnet tool install --global dotnet-ef
 
 ```cmd
 dotnet-ef migrations add InitialCreate
+```
+
+### Generate the SQL Script
+
+```cmd
+dotnet ef migrations script | out-file ./script.sql
 ```
 
 ### DB Update

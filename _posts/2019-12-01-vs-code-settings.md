@@ -32,7 +32,6 @@
 | Git Lens                          | code --install-extension eamodio.gitlens                           |
 | Icons                             | code --install-extension vscode-icons-team.vscode-icons            |
 | Import Cost                       | code --install-extension wix.vscode-import-cost                    |
-| JS Documentation                  | code --install-extension joelday.docthis                           |
 | Live Server                       | code --install-extension ritwickdey.LiveServer                     |
 | Markdown Lint                     | code --install-extension davidanson.vscode-markdownlint            |
 | Markdown Pdf                      | code --install-extension yzane.markdown-pdf                        |
@@ -50,6 +49,7 @@
 | Xunit Test                        | code --install-extension formulahendry.dotnet-test-explorer        |
 | Azure Account                     | code --install-extension ms-vscode.azure-account                   |
 | Azure Repos                       | code --install-extension ms-vsts.team                              |
+| C# XML Comments                   | code --install-extension k--kato.docomment                         |
 
 ## Settings
 
