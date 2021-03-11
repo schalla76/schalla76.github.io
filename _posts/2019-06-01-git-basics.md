@@ -251,7 +251,7 @@ git checkout -b <branchname> -- creates the branch and head points to it
 ### List remote branches
 
 `git ls-remote <remotename>`
-`git remote show <remotename>`  
+`git remote show <remotename>`
 `git branch -vv`
 `git branch -r`
 
@@ -301,7 +301,13 @@ git branch -u <remote>/<branch>
 
 ### History
 
+- Get complete log
+
 `git log --all --decorate --oneline --graph`
+
+- Get file history
+
+`git log -L:ConfigureServices:Startup.cs`
 
 ### SSH keys
 
@@ -315,7 +321,7 @@ id_rsa is private key and don't share this. id_rsa.pub is public key and can be 
 
 ```
 [credential]
-	helper = manager	
+	helper = manager
 [alias]
 	acp = "!f() { git add -A && git commit -m \"$@\" && git push; }; f"
     history = "log --all --decorate --oneline --graph"
