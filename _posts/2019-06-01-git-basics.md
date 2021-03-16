@@ -329,4 +329,25 @@ id_rsa is private key and don't share this. id_rsa.pub is public key and can be 
 [user]
 	email = firstname.lastname@gmail.com
 	name = First Name Last Name
+
+[mergetool]
+    prompt = false
+    keepBackup = false
+    keepTemporaries = false
+
+[merge]
+    tool = winmerge
+
+[mergetool "winmerge"]
+    name = WinMerge
+    trustExitCode = true
+    cmd = "/c/Program\\ Files/WinMerge/WinMergeU.exe" -u -e -fm -wl -dl "Local" -wr -dr "Remote" $LOCAL $MERGED $REMOTE
+
+[diff]
+    tool = winmerge
+
+[difftool "winmerge"]
+    name = WinMerge
+    trustExitCode = true
+    cmd = "/c/Program\\ Files\\/WinMerge/WinMergeU.exe" -u -e $LOCAL $REMOTE
 ```
