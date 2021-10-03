@@ -82,3 +82,8 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
 ```ps
 get-childitem -recurse | where {$_.extension -like ".xls*"} | % { Write-Host $_.FullName }
 ```
+
+## Power shell history location
+
+- By default command history is saved in %userprofile%AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+- By default cmder history is saved in cmder-directory\config\.history

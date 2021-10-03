@@ -46,3 +46,18 @@ New-SelfSignedCertificate -Subject "localhost" -TextExtension @("2.5.29.17={text
 ```
 
 ## Install the certificate on IIS
+
+## Create SSL using power shell
+
+- After running below command copy the certificat to Trusted Root certification authorities
+
+```ps
+New-SelfSignedCertificate -Subject "localhost" -TextExtension @("2.5.29.17={text}DNS=localhost&IPAddress=127.0.0.1&IPAddress=::1")
+```
+
+## Convert the pfx to certificat and key
+
+```cmd
+openssl pkcs12 -in ./local.pfx -nokeys -out ./cert.pem -nodes
+openssl pkcs12 -in ./local.pfx -nocerts -out ./key.pem -nodes
+```

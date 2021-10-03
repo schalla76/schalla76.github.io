@@ -84,3 +84,11 @@ dotnet-ef database drop
 ### Adding test cases
 
 [Integrated testing](https://asp.net-hacker.rocks/2019/01/18/integration-testing-data-access-dotnetcore.html)
+
+### Convert appsettings.json to azure configuration file
+
+```cmd
+dotnet tool install --global dotnet-appsettings
+dotnet tool list --global
+Usage: appsettings [appsettings.json]
+```
