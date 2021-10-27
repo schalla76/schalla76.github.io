@@ -187,3 +187,84 @@ categories: js, postman
   - Parsed
   - Validated
   - Applied
+
+### select query option
+
+- Example
+
+```url
+https://localhost/{{site}}/api/v2/SDA/Objects?$filter=Class eq 'FDWDocumentVersion'&$select=Name,Description,OBID&$top=2
+```
+
+```json
+{
+  "@odata.context": "https://localhost/SRLRMServer/api/v2/SDA/$metadata#Objects(Name,Description,OBID)",
+  "value": [
+    {
+      "Name": "Test-001",
+      "OBID": "6FIB006A",
+      "Description": null
+    },
+    {
+      "Name": "Testing-003",
+      "OBID": "6FJS002A",
+      "Description": null
+    }
+  ]
+}
+```
+
+### expand query option
+
+#### Below Example:
+
+- Expand multiple rels (SPFFileComposition_21,SPFRevisionVersions_21, SPFDocumentRevisions_21).
+- Selects the Name, Class fields for each rel expanded.
+- If the expansion is at same level then the rel are separated by comma (\$expand=SPFFileComposition_21($select=Name,Class),SPFRevisionVersions_21)
+- If there are multiple query options at inner level they are separated by semicolon (\$select=Name,Class;$expand=SPFDocumentRevisions_21)
+- If there are multiple query options at top level they are separated by ampersand.
+
+```url
+https://localhost/{{site}}/api/v2/SDA/Objects?$filter=Class eq 'FDWDocumentVersion'&$select=Name,Description,OBID&$expand=SPFFileComposition_21($select=Name,Class),SPFRevisionVersions_21($select=Name,Class;$expand=SPFDocumentRevisions_21($select=Name,Class))&$top=2
+```
+
+```json
+{
+  "@odata.context": "https://localhost/SRLRMServer/api/v2/SDA/$metadata#Objects(Name,Description,OBID,SPFFileComposition_21,SPFRevisionVersions_21,SPFFileComposition_21(Name,Class),SPFRevisionVersions_21(Name,Class,SPFDocumentRevisions_21,SPFDocumentRevisions_21(Name,Class)))",
+  "value": [
+    {
+      "Name": "Test-001",
+      "OBID": "6FIB006A",
+      "Description": null,
+      "SPFFileComposition_21": [],
+      "SPFRevisionVersions_21": {
+        "Name": "Test-001",
+        "Class": "FDWDocumentRevision",
+        "SPFDocumentRevisions_21": {
+          "Name": "Test-001",
+          "Class": "FDWDocumentMaster"
+        }
+      }
+    },
+    {
+      "Name": "Testing-003",
+      "OBID": "6FJS002A",
+      "Description": null,
+      "SPFFileComposition_21": [
+        {
+          "Name": "SRLRM Tags Report.xlsx",
+          "Class": "SPFDesignFile"
+        }
+      ],
+      "SPFRevisionVersions_21": {
+        "Name": "Testing-003",
+        "Class": "FDWDocumentRevision",
+        "SPFDocumentRevisions_21": {
+          "Name": "Testing-003",
+          "Class": "FDWDocumentMaster"
+        }
+      }
+    }
+  ]
+}
+```
