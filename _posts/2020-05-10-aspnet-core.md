@@ -91,4 +91,5 @@ dotnet-ef database drop
 dotnet tool install --global dotnet-appsettings
 dotnet tool list --global
 Usage: appsettings [appsettings.json]
+example:  appsettings appsettings.json -o appsettings.azure.json
 ```

@@ -101,6 +101,7 @@ Merge: /e /u /wl /dl %6 /dr %7 %1 %2 %4
   - Install the extension [Code Converter](https://marketplace.visualstudio.com/items?itemName=SharpDevelopTeam.CodeConverter)
   - Install the extension [Microsoft Code Analysis 2019](https://marketplace.visualstudio.com/items?itemName=VisualStudioPlatformTeam.MicrosoftCodeAnalysis2019)
   - Install the dark theme for high contrast using below links
+
     - Run regedit
     - Select HKEY_USERS in the file tree on the left-hand side of the window.
     - Load VS independent registry (hive) into HKEY_USERS.
@@ -110,6 +111,7 @@ Merge: /e /u /wl /dl %6 /dr %7 %1 %2 %4
     - Unload the hive. If you don't do this VS won't open.
 
     Select VS back up in HKEY_USERS and click File > Unload Hive...
+
     - [Reddit link](https://www.reddit.com/r/VisualStudio/comments/7tbp6h/visual_studio_2017_high_contrast_theme_dark/)
     - [Screenshots](https://imgur.com/a/TRcrE)
 
@@ -124,3 +126,5 @@ Merge: /e /u /wl /dl %6 /dr %7 %1 %2 %4
 - Clone the git repos
 - Install the git ssh keys
 - Add the dark theme
+
+### Virtual Machine and guest machine display resolution
