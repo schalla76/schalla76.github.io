@@ -10,7 +10,7 @@
 
 - [SQL DB tutorial](https://github.com/Azure-Samples/dotnetcore-sqldb-tutorial)
 
-### Sample Question
+### Sample Test Preparation
 
 - [Exam Topics](https://examtopics.com)
 

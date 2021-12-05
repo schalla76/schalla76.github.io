@@ -102,31 +102,41 @@ When cloned all the file versions are downloaded. Below command clones to reacta
 
 ## FIND DIFFERENCES
 
-### Below command finds the differences between the modifed file and staged
+### Modified file and staged
 
 `git diff`
 
-### Below command finds the differences between the staged and commited file
+### Staged and committed file
 
 --staged and --cached are synonyms
 
 `git diff --staged`
 
-### Below command finds the differences between the modifed file and commited file
+### Modified and committed file
 
 `git diff head`
 
-### Below command finds the differences between the local branch and remote branch
+### Local branch and remote branch
 
 `git diff <local branch> <remote>/<remote branch>`
 
-### Commiting to local repository
+### List file names only in differences
 
-`git commit`
+`git diff --name-only`
+
+### List file names and change type
+
+`git diff --name-status`
+
+### Using winmerge
+
+## Committing
+
+### Committing to local repository
 
 `git commit -m "Message for logging"`
 
-### Skip stagging area
+### Skip staging area
 
 `git commit -a -m "Message for logging"`
 
