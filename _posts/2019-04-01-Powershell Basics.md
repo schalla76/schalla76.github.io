@@ -20,6 +20,8 @@ categories: powershell
 - [Get the file abosulte file path](#get-the-file-abosulte-file-path)
 - [Power shell history location](#power-shell-history-location)
 - [Power shell command to find the assemble target framework](#power-shell-command-to-find-the-assemble-target-framework)
+- [Az cli commands](#az-cli-commands)
+- [Get Path of the exe or command](#get-path-of-the-exe-or-command)
 
 ## Splitting the path
 
@@ -115,4 +117,39 @@ get-childitem -recurse | where {$_.extension -like ".xls*"} | % { Write-Host $_.
 Where-Object {$_.AttributeType.Name -eq "TargetFrameworkAttribute" } |
 Select-Object -ExpandProperty ConstructorArguments |
 Select-Object -ExpandProperty value
+```
+
+## Az cli commands
+
+```powershell
+
+# Login into Azure
+az login
+
+# List accounts
+az account list --query '[].[name, id]' -o tsv
+
+# Set context account
+az account set --subscription '[Subscription Name]'
+
+# Start lab VM
+az lab vm start --name [VMName] --resource-group [Resour Group Name] --lab-name [Lab Name]
+
+# List webapps
+az webapp list --query '[].{rg: resourceGroup, url:defaultHostName, name:name}' | ConvertFrom-Json -AsHashtable
+
+# List VMs in L
+
+az lab vm list --lab-name [lab name] --resource-group [resource group name]
+az lab vm list --lab-name [lab name] --resource-group [resource group name] --query '[].{VMName:fqdn}' | ConvertFrom-Json -AsHashtable
+
+```
+
+## Get Path of the exe or command
+
+```powershell
+# This gets the command
+get-command ws
+# This gets the path of the command
+(get-command ws).path
 ```
