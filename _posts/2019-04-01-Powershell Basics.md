@@ -22,6 +22,7 @@ categories: powershell
 - [Power shell command to find the assemble target framework](#power-shell-command-to-find-the-assemble-target-framework)
 - [Az cli commands](#az-cli-commands)
 - [Get Path of the exe or command](#get-path-of-the-exe-or-command)
+- [Get all the wifi passwords](#get-all-the-wifi-passwords)
 
 ## Splitting the path
 
@@ -152,4 +153,18 @@ az lab vm list --lab-name [lab name] --resource-group [resource group name] --qu
 get-command ws
 # This gets the path of the command
 (get-command ws).path
+```
+
+## Get all the wifi passwords
+
+```powershell
+$array = netsh wlan show profiles |
+    ForEach-Object {
+        if ($_ -match "\s*All User Profile\s*:\s*(.*)") { $($matches[1]) }
+    }
+
+foreach ($wn in $array) {
+    Write-Host "Profile: $wn"
+    netsh wlan show profile name=$wn key=clear | find "Key Content"
+}
 ```
