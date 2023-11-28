@@ -327,6 +327,11 @@ This will generate id_rsa and id_rsa.pub files.
 id_rsa is private key and don't share this. id_rsa.pub is public key and can be added to online git repositories settings.
 ```
 
+```cmd
+# Delete git the credentials
+cmdkey /delete:LegacyGeneric:target=git:https://github.com
+```
+
 ### .git sample
 
 ```
