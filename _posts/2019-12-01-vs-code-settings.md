@@ -115,3 +115,9 @@ VSCode Setting:
 
 code --list-extensions
 code --install-extension <Extension Name>
+
+## Shortcuts
+
+- All symbols: CTRL+T
+- Symbols in File: CTRL+SHIFT+O
+- Navigate to matching brace: CTRL+SHIFT+\

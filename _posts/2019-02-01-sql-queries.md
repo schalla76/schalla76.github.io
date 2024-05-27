@@ -23,6 +23,7 @@ categories: sql spf
   - [Password Reset](#password-reset)
   - [Find documents without security code](#find-documents-without-security-code)
   - [Find interfaces for a object by name](#find-interfaces-for-a-object-by-name)
+  - [Resolve @DOCCLASSIFICATIONNAMESINCREATECONFIG_OR_ALL@](#resolve-docclassificationnamesincreateconfig_or_all)
 
 ## Utility Queries
 
@@ -582,4 +583,42 @@ select dd.OBJNAME, dd.OBJDEFUID, di.INTERFACEDEFUID
   JOIN DATAOBJIF di
     on di.OBJOBID = dd.OBID
    AND dd.OBJNAME = 'Document-Name';
+```
+
+### Resolve @DOCCLASSIFICATIONNAMESINCREATECONFIG_OR_ALL@
+
+**For MsSql**
+
+```sql
+INSERT INTO GRAPH_TMP
+    (OBID, ROWNUMBER, SRCEDGE)
+(
+
+SELECT
+    OBID,
+    '0' AS ROWNUMBER,
+    SRCEDGE
+FROM
+    (
+    SELECT
+        *
+    FROM
+        (
+        SELECT
+            o0.OBID, o0.objname,
+           -- DATA AS FROMTABLESET ,
+            'b57ab6e4-6ac9-4410-b25b-d4c2c988ef9dDATA' AS SRCEDGE
+        FROM
+            DATAOBJ o0
+        WHERE (o0.OBJDEFUID = 'SDADocumentClassification' AND o0.DOMAINUID = 'SPFREFERENCE' AND EXISTS ( SELECT
+                r1.UID2 AS SOURCEUID,
+                r1.DOMAINUID2 AS SOURCEDOMAIN,
+                r1.DEFUID RELDEFUID,
+                o0_ro__1001.OBID AS TARGETOBID,
+                o0_ro__1001.OBJUID AS TARGETUID,
+                o0_ro__1001.DOMAINUID AS TARGETDOMAIN,
+                o0_ro__1001.CONFIG AS TARGETCONFIG
+            FROM
+                DATAREL r1 INNER JOIN DATAOBJ o0_ro__1001 ON r1.UID1 = o0_ro__1001.OBJUID AND r1.DOMAINUID1 = o0_ro__1001.DOMAINUID
+            WHERE  r1.UID2 = o0.OBJUID AND r1.DOMAINUID2 = o0.DOMAINUID AND ( (r1.CONFIG IS NULL OR r1.CONFIG = '') OR (r1.CONFIG = 'PR_New_Process_Train' ) OR (r1.CONFIG = 'PL_RON-A' AND (r1.CLAIMEDTOCONFIGS IS NULL OR CHARINDEX(';' + N'PR_New_Process_Train'+ ';',';' + r1.CLAIMEDTOCONFIGS + ';') =0)  ) ) AND r1.TERMINATIONDATE ='9999/12/31-23:59:59:999' AND r1.DEFUID = 'SCLBCollaborationScopeDocClassification' AND (o0_ro__1001.OBID = '6FNP000A' ) AND ( (o0_ro__1001.CONFIG IS NULL OR o0_ro__1001.CONFIG = '') OR (o0_ro__1001.CONFIG = 'PR_New_Process_Train' ) OR (o0_ro__1001.CONFIG = 'PL_RON-A' AND (o0_ro__1001.CLAIMEDTOCONFIGS IS NULL OR CHARINDEX(';' + N'PR_New_Process_Train'+ ';',';' + o0_ro__1001.CLAIMEDTOCONFIGS + ';') =0)  ) ) AND o0_ro__1001.TERMINATIONDATE ='9999/12/31-23:59:59:999' AND (( CASE  WHEN r1.CONFIG = 'PL_RON-A' THEN 0 WHEN r1.CONFIG = 'PR_New_Process_Train' THEN 1 WHEN r1.CONFIG IS NULL THEN 0 WHEN r1.CONFIG = '' THEN 0 ELSE NULL END  >=  CASE  WHEN o0.CONFIG = 'PL_RON-A' THEN 0 WHEN o0.CONFIG = 'PR_New_Process_Train' THEN 1 WHEN o0.CONFIG IS NULL THEN 0 WHEN o0.CONFIG = '' THEN 0 ELSE NULL END AND CASE  WHEN r1.CONFIG = 'PL_RON-A' THEN 0 WHEN r1.CONFIG = 'PR_New_Process_Train' THEN 1 WHEN r1.CONFIG IS NULL THEN 0 WHEN r1.CONFIG = '' THEN 0 ELSE NULL END  >=  CASE  WHEN o0_ro__1001.CONFIG = 'PL_RON-A' THEN 0 WHEN o0_ro__1001.CONFIG = 'PR_New_Process_Train' THEN 1 WHEN o0_ro__1001.CONFIG IS NULL THEN 0 WHEN o0_ro__1001.CONFIG = '' THEN 0 ELSE NULL END ) OR (r1.CONFIG IS NULL OR r1.CONFIG = '') ) AND (o0_ro__1001.CLAIMEDTOCONFIGS IS NULL OR (CHARINDEX('PR_New_Process_Train',o0_ro__1001.CLAIMEDTOCONFIGS) = 0 )) AND (r1.CLAIMEDTOCONFIGS IS NULL OR (CHARINDEX('PR_New_Process_Train',r1.CLAIMEDTOCONFIGS) = 0 ))) ) AND ( (o0.CONFIG IS NULL OR o0.CONFIG = '') OR (o0.CONFIG = 'PR_New_Process_Train' ) ) AND o0.TERMINATIONDATE ='9999/12/31-23:59:59:999'  ) result ) temptableresult)
 ```
