@@ -66,7 +66,7 @@ dotnet-ef migrations add InitialCreate
 ### Generate the SQL Script
 
 ```cmd
-dotnet ef migrations script | out-file ./script.sql
+dotnet-ef migrations script | out-file ./script.sql
 ```
 
 ### DB Update
